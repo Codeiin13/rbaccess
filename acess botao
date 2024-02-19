@@ -1,0 +1,43 @@
+Private Sub button1_Click()
+
+    Dim db As DAO.Database
+    Dim strSQL As String
+    
+    ' Verifica se todos os campos estão preenchidos
+    If Me.txtCampo1 = "" Or Me.txtCampo2 = "" Or Me.txtCampo3 = "" Or _
+       Me.txtCampo4 = "" Or Me.txtCampo5 = "" Or Me.txtCampo6 = "" Or _
+       Me.txtCampo7 = "" Or Me.cboCampo1 = "" Or Me.cboCampo2 = "" Or Me.cboCampo3 = "" Then
+        MsgBox "Por favor, preencha todos os campos obrigatórios.", vbExclamation
+        Exit Sub
+    End If
+    
+    ' Define a string SQL para inserção de dados na tabela
+    strSQL = "INSERT INTO Tabela1 (Campo1, Campo2, Campo3, Campo4, Campo5, Campo6, Campo7, Campo8, Campo9) VALUES ('" & _
+             Me.txtCampo1 & "', '" & Me.txtCampo2 & "', '" & Me.txtCampo3 & "', '" & _
+             Me.txtCampo4 & "', '" & Me.txtCampo5 & "', '" & Me.txtCampo6 & "', '" & _
+             Me.txtCampo7 & "', '" & Me.cboCampo1 & "', '" & Me.cboCampo2 & "', '" & _
+             Me.cboCampo3 & "');"
+    
+    ' Inicia uma nova transação
+    Set db = CurrentDb
+    db.Execute strSQL, dbFailOnError
+    
+    ' Limpa os campos após a inserção
+    Me.txtCampo1 = ""
+    Me.txtCampo2 = ""
+    Me.txtCampo3 = ""
+    Me.txtCampo4 = ""
+    Me.txtCampo5 = ""
+    Me.txtCampo6 = ""
+    Me.txtCampo7 = ""
+    Me.cboCampo1 = ""
+    Me.cboCampo2 = ""
+    Me.cboCampo3 = ""
+    
+    ' Mensagem de confirmação
+    MsgBox "Os dados foram inseridos com sucesso!", vbInformation
+
+    ' Fecha a conexão com o banco de dados
+    db.Close
+
+End Sub
