@@ -41,3 +41,46 @@ Private Sub button1_Click()
     db.Close
 
 End Sub
+
+'-------------------------------------------------------------------------------------------------------------------------------------------'
+'pagina 2 consulta' 
+
+Private Sub Form_Load()
+    ' Carrega todos os registros da tabela no formulário
+    Me.RecordSource = "SELECT * FROM Tabela1;"
+End Sub
+
+Private Sub btnAtualizar_Click()
+    ' Atualiza o registro atual com os dados inseridos nos controles
+    If Not Me.NewRecord Then
+        Dim db As DAO.Database
+        Dim strSQL As String
+        
+        ' Define a string SQL para atualizar o registro
+        strSQL = "UPDATE Tabela1 SET Campo1='" & Me.txtCampo1 & "', Campo2='" & Me.txtCampo2 & "', Campo3='" & Me.txtCampo3 & "', Campo4='" & Me.txtCampo4 & "', Campo5='" & Me.txtCampo5 & "', Campo6='" & Me.txtCampo6 & "', Campo7='" & Me.txtCampo7 & "', Campo8='" & Me.cboCampo1 & "', Campo9='" & Me.cboCampo2 & "', Campo10='" & Me.cboCampo3 & "' WHERE ID=" & Me.ID & ";"
+        
+        ' Inicia uma nova transação
+        Set db = CurrentDb
+        db.Execute strSQL, dbFailOnError
+        
+        ' Mensagem de confirmação
+        MsgBox "Os dados foram atualizados com sucesso!", vbInformation
+    End If
+End Sub
+
+Private Sub btnPesquisar_Click()
+    ' Pesquisa registros com base nos critérios fornecidos
+    Dim strFiltro As String
+    strFiltro = "SELECT * FROM Tabela1 WHERE "
+    
+    ' Constrói a string do filtro com base nos critérios fornecidos
+    If Not IsNull(Me.txtPesquisa) Then
+        strFiltro = strFiltro & "Campo1 LIKE '*" & Me.txtPesquisa & "*' OR Campo2 LIKE '*" & Me.txtPesquisa & "*' OR Campo3 LIKE '*" & Me.txtPesquisa & "*' OR Campo4 LIKE '*" & Me.txtPesquisa & "*' OR Campo5 LIKE '*" & Me.txtPesquisa & "*';"
+        
+        ' Aplica o filtro ao formulário
+        Me.RecordSource = strFiltro
+    Else
+        ' Se o campo de pesquisa estiver vazio, exibe todos os registros
+        Me.RecordSource = "SELECT * FROM Tabela1;"
+    End If
+End Sub
